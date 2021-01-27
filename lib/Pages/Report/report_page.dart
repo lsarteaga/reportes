@@ -193,7 +193,6 @@ class _StateReportPage extends State<ReportPage>
 
   // new added methods
   Widget buildListTile(item, index) {
-    //return ReportTile(item, index);
     var parsedDate = DateTime.parse(item.time);
     double width = MediaQuery.of(context).size.width * 0.2;
     double height = MediaQuery.of(context).size.height * 0.2;
@@ -211,18 +210,24 @@ class _StateReportPage extends State<ReportPage>
             fit: BoxFit.cover,
             height: height,
             width: width,
+            loadingBuilder: (BuildContext context, Widget child,
+                ImageChunkEvent loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Container(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes
+                      : null,
+                ),
+              );
+            },
           ),
           trailing: Container(
             key: Key('completed-icon-$index'),
             child: Column(
               children: [
-                SizedBox(
-                  height: 10,
-                ),
                 Icon(Icons.navigate_next),
-                SizedBox(
-                  height: 6,
-                ),
                 Text(parsedDate.day.toString() +
                     '-' +
                     parsedDate.month.toString() +

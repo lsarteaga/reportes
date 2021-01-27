@@ -146,7 +146,10 @@ class _ReportFormPageState extends State<ReportFormPage> {
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, color: Colors.amber),
       ),
-      content: Text('Ingresa los campos solicitados'),
+      content: Text(
+        'Ingresa los campos solicitados',
+        textAlign: TextAlign.center,
+      ),
       actions: [
         FlatButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -253,15 +256,27 @@ class _ReportFormPageState extends State<ReportFormPage> {
     double height = MediaQuery.of(context).size.height * 0.2;
     if (_image != null) {
       return Container(
-          height: MediaQuery.of(context).size.height * 0.3,
-          width: MediaQuery.of(context).size.width * 0.6,
-          child: Image.file(
-            //_image,
-            _image.absolute,
-            fit: BoxFit.cover,
-            height: height,
-            width: width,
-          ));
+        height: MediaQuery.of(context).size.height * 0.3,
+        width: MediaQuery.of(context).size.width * 0.6,
+        child: Image.file(
+          _image,
+          frameBuilder: (BuildContext context, Widget child, int frame,
+              bool wasSynchronouslyLoaded) {
+            if (wasSynchronouslyLoaded) {
+              return child;
+            }
+            return AnimatedOpacity(
+              child: child,
+              opacity: frame == null ? 0 : 1,
+              duration: const Duration(seconds: 2),
+              curve: Curves.easeOut,
+            );
+          },
+          fit: BoxFit.cover,
+          height: height,
+          width: width,
+        ),
+      );
     } else {
       return Container(
         height: MediaQuery.of(context).size.height * 0.3,
@@ -270,7 +285,6 @@ class _ReportFormPageState extends State<ReportFormPage> {
           (widget.item != null)
               ? widget.item.coverImage
               : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJiVSnIEbqaz60oD70dQKt2-msc_RwaXLCLw&usqp=CAU',
-          //'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAzugvlLSMeH7WJBYl9FpvaTTeDUo-AqpUiw&usqp=CAU',
           fit: BoxFit.cover,
           height: height,
           width: width,
