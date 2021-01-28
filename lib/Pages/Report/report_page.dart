@@ -5,6 +5,7 @@ import 'package:reportes/Widgets/report_view.dart';
 import 'package:reportes/Providers/report_provider.dart';
 import 'package:reportes/Widgets/drawer_widget.dart';
 import 'dart:core';
+import 'package:animate_do/animate_do.dart';
 
 class ReportPage extends StatefulWidget {
   ReportPage({Key key}) : super(key: key);
@@ -66,7 +67,6 @@ class _StateReportPage extends State<ReportPage>
         onPressed: () => goToNewItemView(),
       ),
       body: renderBody(),
-      //body: renderBody(),
     );
   }
 
@@ -196,57 +196,60 @@ class _StateReportPage extends State<ReportPage>
     var parsedDate = DateTime.parse(item.time);
     double width = MediaQuery.of(context).size.width * 0.2;
     double height = MediaQuery.of(context).size.height * 0.2;
-    return Container(
-      child: Card(
-        elevation: 4,
-        shadowColor: Theme.of(context).primaryColorDark,
-        child: ListTile(
-          key: Key('item-$index'),
-          isThreeLine: true,
-          onLongPress: () => goToEditItemView(item),
-          onTap: () => _goToViewPage(item),
-          leading: Image.network(
-            item.coverImage,
-            fit: BoxFit.cover,
-            height: height,
-            width: width,
-            loadingBuilder: (BuildContext context, Widget child,
-                ImageChunkEvent loadingProgress) {
-              if (loadingProgress == null) return child;
-              return Container(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes
-                      : null,
-                ),
-              );
-            },
-          ),
-          trailing: Container(
-            key: Key('completed-icon-$index'),
-            child: Column(
-              children: [
-                Icon(Icons.navigate_next),
-                Text(parsedDate.day.toString() +
-                    '-' +
-                    parsedDate.month.toString() +
-                    '-' +
-                    parsedDate.year.toString()),
-              ],
+    return BounceInRight(
+      delay: Duration(milliseconds: 200 * index),
+      child: Container(
+        child: Card(
+          elevation: 4,
+          shadowColor: Theme.of(context).primaryColorDark,
+          child: ListTile(
+            key: Key('item-$index'),
+            isThreeLine: true,
+            onLongPress: () => goToEditItemView(item),
+            onTap: () => _goToViewPage(item),
+            leading: Image.network(
+              item.coverImage,
+              fit: BoxFit.cover,
+              height: height,
+              width: width,
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Container(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes
+                        : null,
+                  ),
+                );
+              },
             ),
-          ),
-          title: Text(
-            item.title,
-            maxLines: 1,
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: Text(
-            item.description,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+            trailing: Container(
+              key: Key('completed-icon-$index'),
+              child: Column(
+                children: [
+                  Icon(Icons.navigate_next),
+                  Text(parsedDate.day.toString() +
+                      '-' +
+                      parsedDate.month.toString() +
+                      '-' +
+                      parsedDate.year.toString()),
+                ],
+              ),
+            ),
+            title: Text(
+              item.title,
+              maxLines: 1,
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Text(
+              item.description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+            ),
           ),
         ),
       ),

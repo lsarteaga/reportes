@@ -21,6 +21,9 @@ class _ReportFormPageState extends State<ReportFormPage> {
   final picker = ImagePicker();
   String savedImage;
   bool _isButtonDisabled;
+  //cambios
+  bool waiting;
+  //cambios
 
   _ReportFormPageState(this.item);
 
@@ -186,10 +189,17 @@ class _ReportFormPageState extends State<ReportFormPage> {
       print('creando report sin imagen');
     } else {
       if (widget.item == null && _image != null) {
+        // cambios
+        waiting = true;
+        //cambios
+        _waitingCloudinary(waiting);
         var data = await ReportProvider.uploadImage(_image);
         print(data);
         if (data != null) {
+          waiting = false;
+
           controllers.add(data);
+          _waitingCloudinary(waiting);
           print('creando report con imagen');
         }
       } else {
@@ -200,11 +210,20 @@ class _ReportFormPageState extends State<ReportFormPage> {
           print('editando report sin subir imagen');
         } else {
           if (widget.item != null && _image != null) {
+            //cammbios
+            waiting = true;
+            _waitingCloudinary(waiting);
+            //cambios
             var data = await ReportProvider.uploadImage(_image);
             print(data);
             if (data != null) {
+              //cambios
+              waiting = false;
+
+              //cambios
               controllers.add(data);
               controllers.add(widget.item.slug);
+              _waitingCloudinary(waiting);
               print('editando report subiendo imagen');
             }
           }
@@ -213,6 +232,40 @@ class _ReportFormPageState extends State<ReportFormPage> {
     }
     Navigator.of(context).pop(controllers);
   }
+
+  //cambios
+  _waitingCloudinary(bool waiting) {
+    if (waiting) {
+      return showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                'Creando reporte, esto tomará unos segundos',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: Colors.green,
+                    fontSize: 15),
+              ),
+              content: Container(
+                height: MediaQuery.of(context).size.width * 0.3,
+                width: MediaQuery.of(context).size.width * 0.3,
+                child: Image(
+                  image: AssetImage('assets/images/cargando2.gif'),
+                  fit: BoxFit.scaleDown,
+                  //width: MediaQuery.of(context).size.width * 0.2,
+                  //height: MediaQuery.of(context).size.width * 0.2,
+                ),
+              ),
+            );
+          });
+    } else {
+      Navigator.of(context).pop(controllers);
+    }
+  }
+  //cambios
 
   Widget _getImageButtons() {
     return Container(
