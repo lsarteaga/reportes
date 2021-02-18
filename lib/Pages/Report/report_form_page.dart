@@ -269,7 +269,7 @@ class _ReportFormPageState extends State<ReportFormPage> {
 
   Widget _getImageButtons() {
     return Container(
-      color: Theme.of(context).buttonColor,
+      color: Theme.of(context).appBarTheme.color,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -292,7 +292,7 @@ class _ReportFormPageState extends State<ReportFormPage> {
               children: <Widget>[
                 Text('Foto'),
                 IconButton(
-                  icon: Icon(Icons.image),
+                  icon: Icon(Icons.camera),
                   onPressed: _takeImage,
                   tooltip: 'Tomar una foto',
                 ),

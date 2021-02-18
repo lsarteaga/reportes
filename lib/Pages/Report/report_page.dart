@@ -63,7 +63,11 @@ class _StateReportPage extends State<ReportPage>
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        backgroundColor: Colors.indigo,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
         onPressed: () => goToNewItemView(),
       ),
       body: renderBody(),

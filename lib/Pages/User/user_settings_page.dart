@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:reportes/Common/preferences.dart';
+import 'package:reportes/Providers/content_provider.dart';
 
 class UserSettingsPage extends StatefulWidget {
   @override
@@ -6,9 +9,11 @@ class UserSettingsPage extends StatefulWidget {
 }
 
 class _UserSettingsPageState extends State<UserSettingsPage> {
-  bool isSwitched = false;
   @override
   Widget build(BuildContext context) {
+    final prefs = new Preferences();
+    final _contentProvider = Provider.of<ContentProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Configuraciones'),
@@ -87,11 +92,11 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                     style: TextStyle(fontSize: 15),
                   ),
                   Switch(
-                    value: isSwitched,
+                    value: prefs.mode,
                     onChanged: (value) {
-                      setState(() {
-                        isSwitched = value;
-                      });
+                      prefs.mode = value;
+                      _contentProvider.darkMode = prefs.mode;
+                      setState(() {});
                     },
                     activeColor: Theme.of(context).primaryColor,
                     activeTrackColor: Theme.of(context).accentColor,
