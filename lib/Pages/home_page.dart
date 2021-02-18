@@ -11,7 +11,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PageController _pageController = PageController();
-  List<Widget> _screens = [ReportPage(), LocationPage(), FeedBackPage()];
+  List<Widget> _screens = [
+    ReportPage(),
+    LocationPage(),
+    FeedBackPage(),
+  ];
   int _selectedIndex = 0;
 
   void _onPageChanged(int index) {

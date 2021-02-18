@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:reportes/Pages/User/user_settings_page.dart';
+import 'package:reportes/Pages/Statistics/statistic_page.dart';
 
 class DrawerWidget extends StatelessWidget {
   @override
@@ -23,14 +25,22 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             title: Text('Configuraciones'),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return UserSettingsPage();
+              }));
+            },
           ),
           Divider(
             color: Colors.grey,
           ),
           ListTile(
-            title: Text('Acerca'),
-            onTap: () {},
+            title: Text('Estadísticas'),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return StatisticPage();
+              }));
+            },
           ),
         ],
       ),
