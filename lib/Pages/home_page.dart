@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reportes/Pages/Feedback/feedback_page.dart';
+import 'package:reportes/Pages/Statistics/statistic_page.dart';
 import 'package:reportes/Pages/Location/location_page.dart';
 import 'package:reportes/Pages/Report/report_page.dart';
 
@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _screens = [
     ReportPage(),
     LocationPage(),
-    FeedBackPage(),
+    StatisticPage(),
   ];
   int _selectedIndex = 0;
 
@@ -49,8 +49,8 @@ class _HomePageState extends State<HomePage> {
             label: 'Ubicación',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.feedback),
-            label: 'Sugerencias',
+            icon: Icon(Icons.show_chart),
+            label: 'Estadísticas',
           ),
         ],
         currentIndex: _selectedIndex,

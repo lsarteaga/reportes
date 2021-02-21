@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reportes/Widgets/drawer_widget.dart';
 
 class StatisticPage extends StatefulWidget {
   StatisticPage({Key key}) : super(key: key);
@@ -11,13 +12,27 @@ class _StateStatisticPage extends State<StatisticPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Estadísticas'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Text('Statistics'),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                icon: Icon(Icons.bar_chart),
+              ),
+              Tab(
+                icon: Icon(Icons.pie_chart),
+              ),
+              Tab(
+                icon: Icon(Icons.stacked_line_chart_rounded),
+              )
+            ],
+          ),
+          title: Text('Estadísticas'),
+          centerTitle: true,
+        ),
+        drawer: DrawerWidget(),
       ),
     );
   }

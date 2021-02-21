@@ -42,12 +42,14 @@ class _StateReportPage extends State<ReportPage>
 
   _fetchData() async {
     var data = await ReportProvider.getJsonReports();
-    setState(() {
-      List<dynamic> results = data['docs'];
-      results.forEach((element) {
-        items.add(ReportModel.fromJson(element));
+    if (mounted) {
+      setState(() {
+        List<dynamic> results = data['docs'];
+        results.forEach((element) {
+          items.add(ReportModel.fromJson(element));
+        });
       });
-    });
+    }
   }
 
   @override
@@ -108,7 +110,7 @@ class _StateReportPage extends State<ReportPage>
     return Dismissible(
       key: Key('${item.hashCode}'),
       background: Container(
-        color: Colors.red[700],
+        color: Theme.of(context).accentColor,
       ),
       onDismissed: (direction) => removeItemFromList(item, index),
       direction: DismissDirection.startToEnd,
@@ -138,9 +140,14 @@ class _StateReportPage extends State<ReportPage>
         emptyListController.forward();
       }
     }
+
     Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text('Reporte eliminado'),
+      content: Text(
+        'Reporte eliminado',
+        style: TextStyle(color: Colors.white),
+      ),
       duration: Duration(milliseconds: 500),
+      backgroundColor: Colors.indigo,
     ));
   }
 
@@ -187,9 +194,14 @@ class _StateReportPage extends State<ReportPage>
         animatedListKey.currentState.insertItem(0);
         //this.animatedListKey.currentState.insertItem(this.items.length - 1);
       }
+
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('Reporte agregado'),
+        content: Text(
+          'Reporte agregado',
+          style: TextStyle(color: Colors.white),
+        ),
         duration: Duration(milliseconds: 500),
+        backgroundColor: Colors.indigo,
       ));
       setState(() {});
     }
@@ -291,8 +303,12 @@ class _StateReportPage extends State<ReportPage>
       print('modificado');
       report = data;
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('Reporte editado'),
+        content: Text(
+          'Reporte modificado',
+          style: TextStyle(color: Colors.white),
+        ),
         duration: Duration(milliseconds: 500),
+        backgroundColor: Colors.indigo,
       ));
     }
   }

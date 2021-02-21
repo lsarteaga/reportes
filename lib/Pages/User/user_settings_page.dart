@@ -96,7 +96,9 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                     onChanged: (value) {
                       prefs.mode = value;
                       _contentProvider.darkMode = prefs.mode;
-                      setState(() {});
+                      if (mounted) {
+                        setState(() {});
+                      }
                     },
                     activeColor: Theme.of(context).primaryColor,
                     activeTrackColor: Theme.of(context).accentColor,

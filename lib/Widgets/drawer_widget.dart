@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:reportes/Pages/Feedback/feedback_page.dart';
 import 'package:reportes/Pages/User/user_settings_page.dart';
-import 'package:reportes/Pages/Statistics/statistic_page.dart';
 
 class DrawerWidget extends StatelessWidget {
   @override
@@ -35,10 +35,10 @@ class DrawerWidget extends StatelessWidget {
             color: Colors.grey,
           ),
           ListTile(
-            title: Text('Estadísticas'),
+            title: Text('Contacto'),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return StatisticPage();
+                return FeedBackPage();
               }));
             },
           ),

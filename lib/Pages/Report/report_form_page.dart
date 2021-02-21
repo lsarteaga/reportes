@@ -252,11 +252,8 @@ class _ReportFormPageState extends State<ReportFormPage> {
               content: Container(
                 height: MediaQuery.of(context).size.width * 0.3,
                 width: MediaQuery.of(context).size.width * 0.3,
-                child: Image(
-                  image: AssetImage('assets/images/cargando2.gif'),
-                  fit: BoxFit.scaleDown,
-                  //width: MediaQuery.of(context).size.width * 0.2,
-                  //height: MediaQuery.of(context).size.width * 0.2,
+                child: Center(
+                  child: CircularProgressIndicator(),
                 ),
               ),
             );
