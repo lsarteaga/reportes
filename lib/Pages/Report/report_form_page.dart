@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reportes/Models/report_model.dart';
 import 'dart:io';
+import 'dart:convert';
 import 'package:reportes/Providers/report_provider.dart';
+import 'package:group_button/group_button.dart';
+import 'package:reportes/Common/constant.dart';
+import 'package:reportes/Models/location_model.dart';
 
 class ReportFormPage extends StatefulWidget {
   final ReportModel item;
@@ -21,14 +26,29 @@ class _ReportFormPageState extends State<ReportFormPage> {
   final picker = ImagePicker();
   String savedImage;
   bool _isButtonDisabled;
-  //cambios
   bool waiting;
-  //cambios
+  // switch buttons
+  int tagButton = 0;
+  String tag;
+  // location
+  Coordinates defaultCoordinate;
+  LocationsList _list;
+  List<dynamic> data;
 
   _ReportFormPageState(this.item);
 
+  Future<String> loadJsonData() async {
+    var jsonText =
+        await rootBundle.loadString('assets/data/default_locations.json');
+    setState(() => data = json.decode(jsonText));
+    print(data);
+    _list = LocationsList.fromJsonList(data);
+    print(jsonText);
+  }
+
   @override
   void initState() {
+    this.loadJsonData();
     super.initState();
     if (item != null) {
       titleController.text = this.item.title;
@@ -100,8 +120,23 @@ class _ReportFormPageState extends State<ReportFormPage> {
                 minLines: 1,
                 autocorrect: true,
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: (8.0)),
+                child: Text(
+                  'Seleccione una categoría',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              showTagButtons(),
               SizedBox(
                 height: 14.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: (10.0)),
+                child: Text(
+                  'Agrege una imagen',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
               ),
               _showImage(),
               SizedBox(
@@ -142,6 +177,21 @@ class _ReportFormPageState extends State<ReportFormPage> {
     );
   }
 
+  Widget showTagButtons() {
+    return GroupButton(
+      isRadio: true,
+      spacing: 10,
+      onSelected: (index, isSelected) => {
+        print('$index button is selected'),
+        // se asigna el tag seleccionado al reporte
+        tagButton = index,
+      },
+      buttons: ["Comunitario", "Tránsito", "Denuncia"],
+      selectedButtons: ["Comunitario"],
+      selectedColor: Colors.indigo,
+    );
+  }
+
   Widget showMessage() {
     return AlertDialog(
       title: Text(
@@ -150,7 +200,7 @@ class _ReportFormPageState extends State<ReportFormPage> {
         style: TextStyle(fontWeight: FontWeight.bold, color: Colors.amber),
       ),
       content: Text(
-        'Ingresa los campos solicitados',
+        'Ingrese los campos solicitados',
         textAlign: TextAlign.center,
       ),
       actions: [
@@ -174,10 +224,36 @@ class _ReportFormPageState extends State<ReportFormPage> {
     return _isButtonDisabled;
   }
 
+  void parseTag(int value) {
+    switch (value) {
+      case 0:
+        {
+          tag = Constant.TAGS[0];
+        }
+        break;
+      case 1:
+        {
+          tag = Constant.TAGS[1];
+        }
+        break;
+      case 2:
+        {
+          tag = Constant.TAGS[2];
+        }
+        break;
+    }
+  }
+
   void submit() async {
     controllers.add(titleController.text);
     controllers.add(descriptionController.text);
     controllers.add(addressController.text);
+    parseTag(tagButton);
+    controllers.add(tag);
+
+    print(coordinatesToJson(_list.items[0]));
+    defaultCoordinate = _list.items[0];
+    controllers.add(defaultCoordinate);
     // casos
     // widget es nulo (creando reporte) con imagen nula
     // widget es nulo (crando repor) con imagen cargada

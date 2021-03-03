@@ -158,22 +158,30 @@ class _StateReportPage extends State<ReportPage>
       if (value != null) {
         value.forEach((element) {
           print(counter);
+          print(element);
           counter++;
         });
-        // modificaciones
-        if (counter == 4) {
+        print('valor del contador $counter');
+        // si counter == 5  entonces viene con imagen
+        // sino se asigna la imagen por defecto
+        if (counter == 6) {
           counter = 0;
           addItem(ReportModel(
               title: value[0],
               description: value[1],
               address: value[2],
-              coverImage: value[3]));
+              tag: value[3],
+              location: value[4],
+              coverImage: value[5]));
         } else {
+          print('entre aca');
           counter = 0;
           addItem(ReportModel(
               title: value[0],
               description: value[1],
               address: value[2],
+              tag: value[3],
+              location: value[4],
               coverImage: defaul));
         }
       }
