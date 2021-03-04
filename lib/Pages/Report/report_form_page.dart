@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reportes/Models/report_model.dart';
 import 'dart:io';
@@ -17,6 +18,7 @@ class ReportFormPage extends StatefulWidget {
 }
 
 class _ReportFormPageState extends State<ReportFormPage> {
+  _ReportFormPageState(this.item);
   ReportModel item;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -35,7 +37,29 @@ class _ReportFormPageState extends State<ReportFormPage> {
   LocationsList _list;
   List<dynamic> data;
 
-  _ReportFormPageState(this.item);
+  //variable para capturar ubicacion
+  Coordinates userCoordinates;
+  bool captured = false;
+
+  var position;
+  // experimento de captura de ubicacion
+  var locationMessage = '';
+  Position cord;
+
+  void getCurrentLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    if (position != null) {
+      print('Se capturo la ubicacion');
+      print(position);
+      captured = true;
+    }
+    var lastPosition = await Geolocator.getLastKnownPosition();
+    print(lastPosition);
+    setState(() {
+      locationMessage = '$position.latitude, $position.longitude';
+    });
+  }
 
   Future<void> loadJsonData() async {
     var jsonText =
@@ -49,6 +73,7 @@ class _ReportFormPageState extends State<ReportFormPage> {
   @override
   void initState() {
     this.loadJsonData();
+    this.getCurrentLocation();
     super.initState();
     if (item != null) {
       titleController.text = this.item.title;
@@ -121,6 +146,31 @@ class _ReportFormPageState extends State<ReportFormPage> {
                 autocorrect: true,
               ),
               Padding(
+                padding: const EdgeInsets.only(top: 10.0, bottom: (10.0)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'Capturar ubicación',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    FlatButton(
+                      onPressed: () => (captured == false)
+                          ? getCurrentLocation()
+                          : showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return showLocationMessage();
+                              }),
+                      child: Text('Ubicación'),
+                      color: Colors.indigo,
+                      textColor: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: (8.0)),
                 child: Text(
                   'Seleccione una categoría',
@@ -174,6 +224,26 @@ class _ReportFormPageState extends State<ReportFormPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget showLocationMessage() {
+    return AlertDialog(
+      title: Text(
+        'INFORMACION',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+      ),
+      content: Text(
+        'Ubicación obtenida',
+        textAlign: TextAlign.center,
+      ),
+      actions: [
+        FlatButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 
@@ -252,8 +322,16 @@ class _ReportFormPageState extends State<ReportFormPage> {
     controllers.add(tag);
 
     print(coordinatesToJson(_list.items[0]));
-    defaultCoordinate = _list.items[0];
-    controllers.add(defaultCoordinate);
+    if (position == null) {
+      defaultCoordinate = _list.items[0];
+      controllers.add(defaultCoordinate);
+    } else {
+      Coordinates userCoordinates2 = new Coordinates(
+          latitude: position.latitude.toString(),
+          longitude: position.longitude.toString());
+      controllers.add(userCoordinates2);
+    }
+
     // casos
     // widget es nulo (creando reporte) con imagen nula
     // widget es nulo (crando repor) con imagen cargada
