@@ -11,8 +11,7 @@ class LocationPage extends StatefulWidget {
 
 const DEFAULT_LOCATION = LatLng(-0.2704294649446027, -78.54912594779665);
 
-class _StateLocationPage extends State<LocationPage>
-    with AutomaticKeepAliveClientMixin {
+class _StateLocationPage extends State<LocationPage> {
   LatLng currentLocation = DEFAULT_LOCATION;
   bool isShowInfo = false;
   GoogleMapController controller;
@@ -25,7 +24,6 @@ class _StateLocationPage extends State<LocationPage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       drawer: DrawerWidget(),
       appBar: AppBar(
@@ -87,8 +85,4 @@ class _StateLocationPage extends State<LocationPage>
               this.isShowInfo = !this.isShowInfo;
             })));
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }

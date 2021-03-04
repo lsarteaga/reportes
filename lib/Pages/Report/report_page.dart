@@ -13,8 +13,7 @@ class ReportPage extends StatefulWidget {
   _StateReportPage createState() => _StateReportPage();
 }
 
-class _StateReportPage extends State<ReportPage>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
   List<ReportModel> items = [];
   GlobalKey<AnimatedListState> animatedListKey = GlobalKey<AnimatedListState>();
   AnimationController emptyListController;
@@ -54,7 +53,6 @@ class _StateReportPage extends State<ReportPage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       drawer: DrawerWidget(),
       appBar: AppBar(
@@ -320,8 +318,4 @@ class _StateReportPage extends State<ReportPage>
       ));
     }
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }
