@@ -9,15 +9,13 @@ class FeedBackModel {
   final String title;
   final String body;
   final String type;
-  final String reaction;
 
-  FeedBackModel({this.id, this.title, this.body, this.type, this.reaction});
+  FeedBackModel({this.id, this.title, this.body, this.type});
   factory FeedBackModel.fromJson(Map<String, dynamic> json) => FeedBackModel(
         id: json['id'],
         title: json['title'],
         body: json['body'],
         type: json['type'],
-        reaction: json['reaction'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -25,6 +23,5 @@ class FeedBackModel {
         'title': title,
         'body': body,
         'type': type,
-        'reaction': reaction,
       };
 }
