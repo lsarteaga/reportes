@@ -5,10 +5,10 @@ FeedBackModel feedBackModelFromJson(String str) =>
 String feedBackModelToJson(FeedBackModel data) => json.encode(data.toJson());
 
 class FeedBackModel {
-  final String id;
-  final String title;
-  final String body;
-  final String type;
+  String id;
+  String title;
+  String body;
+  String type;
 
   FeedBackModel({this.id, this.title, this.body, this.type});
   factory FeedBackModel.fromJson(Map<String, dynamic> json) => FeedBackModel(

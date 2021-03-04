@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reportes/Widgets/drawer_widget.dart';
 import 'package:reportes/Widgets/feedback_sdk_widget.dart';
 import 'package:reportes/Pages/Feedback/feedback_form.dart';
 
@@ -32,7 +31,6 @@ class _StateFeedBackPage extends State<FeedBackPage> {
         body: TabBarView(
           children: [FeedBackForm(), FeedBackSdkWidget()],
         ),
-        drawer: DrawerWidget(),
       ),
     );
   }

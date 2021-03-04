@@ -28,6 +28,7 @@ class FeedBackSdkWidget extends StatelessWidget {
           return ListView(
             children: snapshot.data.docs.map((DocumentSnapshot document) {
               FeedBackModel model = FeedBackModel.fromJson(document.data());
+              model.id = document.id;
               return FeedBackCardWidget(
                 feedBackModel: model,
               );

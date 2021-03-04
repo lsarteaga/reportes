@@ -37,7 +37,7 @@ class _ReportFormPageState extends State<ReportFormPage> {
 
   _ReportFormPageState(this.item);
 
-  Future<String> loadJsonData() async {
+  Future<void> loadJsonData() async {
     var jsonText =
         await rootBundle.loadString('assets/data/default_locations.json');
     setState(() => data = json.decode(jsonText));
