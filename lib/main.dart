@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:reportes/Pages/home_page.dart';
+import 'package:reportes/Pages/Login/signin_screen.dart';
 import 'package:reportes/Providers/content_provider.dart';
 import 'package:reportes/Common/preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:reportes/Theme/main_theme.dart';
+import 'package:reportes/Models/User/user_auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +14,8 @@ Future<void> main() async {
     providers: [
       ChangeNotifierProvider<ContentProvider>(
         create: (_) => ContentProvider(),
-      )
+      ),
+      ChangeNotifierProvider(create: (_) => UserAuth())
     ],
     child: MyApp(),
   ));
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
                 }
                 if (snapshot.connectionState == ConnectionState.done) {
                   print('Firebase iniciado correctamente');
-                  return HomePage();
+                  return LoginScreen();
                 }
                 return Container(
                     child: Center(child: CircularProgressIndicator()));

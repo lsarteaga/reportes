@@ -34,9 +34,11 @@ dependencies:
   shared_preferences: ^0.5.12+4
   firebase_core: ^0.7.0
   cloud_firestore: ^0.16.0
+  firebase_auth: ^0.20.1
   group_button: ^1.2.0
-  charts_flutter: ^0.6.0
+  charts_flutter: ^0.10.0
   geolocator: ^6.1.14
+
 
 dev_dependencies:
   flutter_test:
