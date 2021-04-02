@@ -45,4 +45,19 @@ class UserAuth extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> signOut() async {
+    await auth.signOut();
+    notifyListeners();
+  }
+
+  void userState() {
+    auth.userChanges().listen((user) {
+      if (user == null) {
+        print('usuario no logeado');
+      } else {
+        print('usuario logeado');
+      }
+    });
+  }
 }

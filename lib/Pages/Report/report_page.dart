@@ -70,7 +70,8 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
         ),
         onPressed: () => goToNewItemView(),
       ),
-      body: renderBody(),
+      //body: renderBody(),
+      body: Container(),
     );
   }
 

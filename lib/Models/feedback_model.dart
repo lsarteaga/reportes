@@ -9,19 +9,16 @@ class FeedBackModel {
   String title;
   String body;
   String type;
+  String userId;
 
-  FeedBackModel({this.id, this.title, this.body, this.type});
+  FeedBackModel({this.id, this.title, this.body, this.type, this.userId});
   factory FeedBackModel.fromJson(Map<String, dynamic> json) => FeedBackModel(
-        id: json['id'],
-        title: json['title'],
-        body: json['body'],
-        type: json['type'],
-      );
+      id: json['id'],
+      title: json['title'],
+      body: json['body'],
+      type: json['type'],
+      userId: json['userId']);
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'body': body,
-        'type': type,
-      };
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'title': title, 'body': body, 'type': type, 'userId': userId};
 }

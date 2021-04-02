@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:group_button/group_button.dart';
 import 'package:flutter/material.dart';
+import 'package:reportes/Models/User/user_auth.dart';
 import 'package:reportes/Models/feedback_model.dart';
 import 'package:reportes/Common/constant.dart';
 
@@ -9,7 +10,7 @@ class FeedBackForm extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final _title = TextEditingController();
   final _body = TextEditingController();
-
+  UserAuth userAuth = UserAuth();
   int selection = 0;
 
   CollectionReference feedback =
@@ -97,15 +98,19 @@ class FeedBackForm extends StatelessWidget {
     print('entre aca');
     print(_title.text);
 
-    addFeedback(FeedBackModel(
-        title: _title.text,
-        body: _body.text,
-        type: (selection == 0) ? Constant.FEEDBACK[0] : Constant.FEEDBACK[1]));
+    addFeedback(
+      FeedBackModel(
+          title: _title.text,
+          body: _body.text,
+          type: (selection == 0) ? Constant.FEEDBACK[0] : Constant.FEEDBACK[1],
+          userId: userAuth.user.id),
+    );
   }
 
   Future<void> addFeedback(FeedBackModel model) {
     return feedback.add(model.toJson()).then((value) {
-      print('Registro agregado');
+      print('Comprobando usuario');
+      userAuth.userState();
       formKey.currentState.reset();
       _title.text = '';
       _body.text = '';
