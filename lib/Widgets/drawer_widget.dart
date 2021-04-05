@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:reportes/Models/User/user_auth.dart';
 import 'package:reportes/Pages/Feedback/feedback_page.dart';
+import 'package:reportes/Pages/Login/signin_screen.dart';
 import 'package:reportes/Pages/User/user_settings_page.dart';
 
 class DrawerWidget extends StatelessWidget {
+  UserAuth userAuth = new UserAuth();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -40,6 +43,23 @@ class DrawerWidget extends StatelessWidget {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                 return FeedBackPage();
               }));
+            },
+          ),
+          Divider(
+            color: Colors.grey,
+          ),
+          ListTile(
+            title: Text('Salir'),
+            onTap: () {
+              userAuth.userState();
+              if (userAuth.auth.currentUser.uid != null) {
+                userAuth.signOut();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    (Route<dynamic> route) => false);
+              }
+              userAuth.userState();
             },
           ),
         ],

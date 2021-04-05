@@ -27,6 +27,16 @@ class ReportProvider {
     }
   }
 
+  static Future getJsonReportsUser(String idUser) async {
+    try {
+      final apiResponse = await http.get('$url/user/$idUser');
+      return json.decode(apiResponse.body);
+    } on Exception catch (e) {
+      print('exception $e');
+      return null;
+    }
+  }
+
   static Future<Map> getJsonReport(String id) async {
     try {
       final apiResponse = await http.get('$url/$id');

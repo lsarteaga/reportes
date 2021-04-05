@@ -192,7 +192,7 @@ class LoginScreen extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => SignUpScreen()));
                             },
-                            child: Text('Go to sign in screen')),
+                            child: Text('Go to sign up screen')),
                       ],
                     ),
                   ),

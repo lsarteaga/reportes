@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:reportes/Models/User/user_auth.dart';
 import 'package:reportes/Models/report_model.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -45,6 +46,10 @@ class _ReportFormPageState extends State<ReportFormPage> {
   // experimento de captura de ubicacion
   var locationMessage = '';
   Position cord;
+
+  // ID del usuario actual que usa la aplicacion
+  String iduser;
+  UserAuth userAuth = UserAuth();
 
   void getCurrentLocation() async {
     position = await Geolocator.getCurrentPosition(
@@ -384,6 +389,13 @@ class _ReportFormPageState extends State<ReportFormPage> {
         }
       }
     }
+    if (userAuth.auth.currentUser.uid != null) {
+      iduser = userAuth.auth.currentUser.uid.toString();
+      controllers.add(iduser);
+    } else {
+      print('el id esta nulo :(');
+    }
+
     Navigator.of(context).pop(controllers);
   }
 

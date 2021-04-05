@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reportes/Models/User/user_auth.dart';
 import 'package:reportes/Models/report_model.dart';
 import 'package:reportes/Pages/Report/report_form_page.dart';
 import 'package:reportes/Widgets/report_view.dart';
@@ -20,6 +21,8 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
   int counter = 0;
   String defaul =
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqkt2_8w_YlDxmV1oxsjbBdb0Ywa_L5BPimg&usqp=CAU';
+  // para obtener el id del usuario actual
+  UserAuth userAuth = UserAuth();
 
   @override
   void initState() {
@@ -40,10 +43,13 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
   }
 
   _fetchData() async {
-    var data = await ReportProvider.getJsonReports();
+    //var data = await ReportProvider.getJsonReports();
+    String idUser = userAuth.auth.currentUser.uid.toString();
+    dynamic mp = await ReportProvider.getJsonReportsUser(idUser);
+    print(mp.runtimeType);
     if (mounted) {
       setState(() {
-        List<dynamic> results = data['docs'];
+        List<dynamic> results = mp;
         results.forEach((element) {
           items.add(ReportModel.fromJson(element));
         });
@@ -70,8 +76,7 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
         ),
         onPressed: () => goToNewItemView(),
       ),
-      //body: renderBody(),
-      body: Container(),
+      body: renderBody(),
     );
   }
 
@@ -161,9 +166,10 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
           counter++;
         });
         print('valor del contador $counter');
-        // si counter == 5  entonces viene con imagen
+        // si counter == 6  entonces viene con imagen
         // sino se asigna la imagen por defecto
-        if (counter == 6) {
+        // el id del usuario actual se asigna a cualquier reporte
+        if (counter == 7) {
           counter = 0;
           addItem(ReportModel(
               title: value[0],
@@ -171,7 +177,8 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
               address: value[2],
               tag: value[3],
               location: value[4],
-              coverImage: value[5]));
+              coverImage: value[5],
+              idUser: value[6]));
         } else {
           print('entre aca');
           counter = 0;
@@ -181,7 +188,8 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
               address: value[2],
               tag: value[3],
               location: value[4],
-              coverImage: defaul));
+              coverImage: defaul,
+              idUser: value[5]));
         }
       }
     });

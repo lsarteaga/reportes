@@ -19,6 +19,7 @@ class ReportModel {
     this.slug,
     this.avatarImage,
     this.coverImage,
+    this.idUser,
   });
 
   String time;
@@ -31,6 +32,7 @@ class ReportModel {
   String slug;
   String avatarImage;
   String coverImage;
+  String idUser;
 
   factory ReportModel.fromJson(Map<String, dynamic> json) => ReportModel(
         time: json["time"],
@@ -43,6 +45,7 @@ class ReportModel {
         slug: json["slug"],
         avatarImage: json["avatarImage"],
         coverImage: json["coverImage"],
+        idUser: json["idUser"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -56,5 +59,6 @@ class ReportModel {
         "slug": slug,
         "avatarImage": avatarImage,
         "coverImage": coverImage,
+        "idUser": idUser,
       };
 }
