@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reportes/Models/User/user_auth.dart';
 import 'package:reportes/Widgets/drawer_widget.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:reportes/Models/charts/report_chart_model.dart';
@@ -18,6 +19,9 @@ class _StatisticPageState extends State<StatisticPage> {
   ReportChartModel tag3;
   bool activation = false;
 
+  // para obtener el id del usuario actual
+  UserAuth userAuth = UserAuth();
+
   @override
   void initState() {
     super.initState();
@@ -25,13 +29,14 @@ class _StatisticPageState extends State<StatisticPage> {
   }
 
   _fetchChartData() async {
-    var aux1 = await ReportChartService.getJsonReport('first');
+    String idUser = userAuth.auth.currentUser.uid.toString();
+    var aux1 = await ReportChartService.getJsonReport('first/$idUser');
     tag1 = ReportChartModel.fromJson(aux1);
     tag1.colorVal = Color(0xff3366cc);
-    aux1 = await ReportChartService.getJsonReport('second');
+    aux1 = await ReportChartService.getJsonReport('second/$idUser');
     tag2 = ReportChartModel.fromJson(aux1);
     tag2.colorVal = Color(0xff990099);
-    aux1 = await ReportChartService.getJsonReport('third');
+    aux1 = await ReportChartService.getJsonReport('third/$idUser');
     tag3 = ReportChartModel.fromJson(aux1);
     tag3.colorVal = Color(0xff109618);
     print(tag1.reportValue);
