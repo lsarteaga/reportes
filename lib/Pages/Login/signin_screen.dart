@@ -14,8 +14,9 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('SignIn'),
+          title: Text('Inicio de sesión'),
           centerTitle: true,
+          backgroundColor: Theme.of(context).primaryColor,
         ),
         body: Form(
           key: formKey,
@@ -34,7 +35,7 @@ class LoginScreen extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Email',
+                              'Correo electrónico',
                               style: TextStyle(
                                   fontSize: 21,
                                   fontStyle: FontStyle.normal,
@@ -58,8 +59,8 @@ class LoginScreen extends StatelessWidget {
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.email),
-                                hintText: 'Type your email here',
-                                hintStyle: TextStyle(fontSize: 12),
+                                hintText: 'Ingrese su correo aqui',
+                                hintStyle: TextStyle(fontSize: 15),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   borderSide: BorderSide(
@@ -73,7 +74,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                               validator: (email) {
                                 if (email.isEmpty) {
-                                  return 'Type your email';
+                                  return 'Ingrese un correo válido';
                                 } else {
                                   return null;
                                 }
@@ -89,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Password',
+                              'Contraseña',
                               style: TextStyle(
                                   fontSize: 21,
                                   fontStyle: FontStyle.normal,
@@ -110,11 +111,12 @@ class LoginScreen extends StatelessWidget {
                             child: TextFormField(
                               controller: passwordController,
                               textAlign: TextAlign.left,
-                              keyboardType: TextInputType.emailAddress,
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
                               decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.lock),
-                                hintText: 'Type your password here',
-                                hintStyle: TextStyle(fontSize: 12),
+                                hintText: 'Ingrese su contraseña aqui',
+                                hintStyle: TextStyle(fontSize: 15),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   borderSide: BorderSide(
@@ -128,9 +130,9 @@ class LoginScreen extends StatelessWidget {
                               ),
                               validator: (password) {
                                 if (password.isEmpty) {
-                                  return 'Type your password';
-                                } else if (password.length < 4) {
-                                  return '4 characters at least';
+                                  return 'Ingrese su clave';
+                                } else if (password.length < 6) {
+                                  return 'Son 6 carácteres mínimo';
                                 }
                                 return null;
                               },
@@ -150,7 +152,7 @@ class LoginScreen extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(40),
                                 child: RaisedButton(
-                                  color: Color(0xff268A9A),
+                                  color: Theme.of(context).primaryColor,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
@@ -174,8 +176,9 @@ class LoginScreen extends StatelessWidget {
                                     }
                                   },
                                   child: Text(
-                                    'Login',
-                                    style: TextStyle(color: Colors.white),
+                                    'Ingresar',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
                                   ),
                                 ),
                               ),
@@ -192,7 +195,8 @@ class LoginScreen extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => SignUpScreen()));
                             },
-                            child: Text('Go to sign up screen')),
+                            child:
+                                Text('No tiene una cuenta? Registrese aqui')),
                       ],
                     ),
                   ),

@@ -6,14 +6,18 @@ import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scaKey = GlobalKey<ScaffoldState>();
   final UserData user = UserData();
+  UserAuth userAuth = new UserAuth();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaKey,
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text('Nueva Cuenta'),
         centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -32,11 +36,11 @@ class SignUpScreen extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 4),
+                                horizontal: 16, vertical: 15),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Name',
+                                'Nombre de usuario',
                                 style: TextStyle(
                                     fontSize: 21, color: Color(0xff404b5a)),
                               ),
@@ -59,8 +63,8 @@ class SignUpScreen extends StatelessWidget {
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(Icons.person),
-                                  hintText: 'Type your name here',
-                                  hintStyle: TextStyle(fontSize: 12),
+                                  hintText: 'Ingrese su usuario aqui',
+                                  hintStyle: TextStyle(fontSize: 15),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),
                                     borderSide: BorderSide(
@@ -74,7 +78,7 @@ class SignUpScreen extends StatelessWidget {
                                 ),
                                 validator: (name) {
                                   if (name.isEmpty) {
-                                    return 'Type your name';
+                                    return 'Ingrese su usuario';
                                   }
                                   return null;
                                 },
@@ -91,7 +95,7 @@ class SignUpScreen extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Email',
+                                'Correo electrónico',
                                 style: TextStyle(
                                     fontSize: 21, color: Color(0xff404b5a)),
                               ),
@@ -114,8 +118,8 @@ class SignUpScreen extends StatelessWidget {
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(Icons.email),
-                                  hintText: 'Type your email here',
-                                  hintStyle: TextStyle(fontSize: 12),
+                                  hintText: 'Ingrese su correo aqui',
+                                  hintStyle: TextStyle(fontSize: 15),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),
                                     borderSide: BorderSide(
@@ -129,7 +133,7 @@ class SignUpScreen extends StatelessWidget {
                                 ),
                                 validator: (email) {
                                   if (email.isEmpty) {
-                                    return 'Type your email';
+                                    return 'Ingrese su correo';
                                   }
                                   return null;
                                 },
@@ -146,7 +150,7 @@ class SignUpScreen extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Password',
+                                'Contraseña',
                                 style: TextStyle(
                                     fontSize: 21, color: Color(0xff404b5a)),
                               ),
@@ -166,11 +170,12 @@ class SignUpScreen extends StatelessWidget {
                               ),
                               child: TextFormField(
                                 textAlign: TextAlign.left,
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.text,
+                                obscureText: true,
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(Icons.lock),
-                                  hintText: 'Type your password here',
-                                  hintStyle: TextStyle(fontSize: 12),
+                                  hintText: 'Ingrese su contraseña aqui',
+                                  hintStyle: TextStyle(fontSize: 15),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),
                                     borderSide: BorderSide(
@@ -183,8 +188,8 @@ class SignUpScreen extends StatelessWidget {
                                   fillColor: Colors.white,
                                 ),
                                 validator: (password) {
-                                  if (password.isEmpty) {
-                                    return 'Type your password';
+                                  if (password.isEmpty || password.length < 6) {
+                                    return 'Ingrese una contraseña';
                                   }
                                   return null;
                                 },
@@ -205,7 +210,7 @@ class SignUpScreen extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(40),
                                   child: RaisedButton(
-                                    color: Color(0xff268A9A),
+                                    color: Theme.of(context).primaryColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),
@@ -216,19 +221,42 @@ class SignUpScreen extends StatelessWidget {
                                       userAuth.signUp(
                                           userData: user,
                                           onSuccess: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        LoginScreen()));
+                                            userAuth.signOut();
+                                            formKey.currentState.reset();
+                                            scaKey.currentState
+                                                .showSnackBar(SnackBar(
+                                              backgroundColor: Theme.of(context)
+                                                  .primaryColor,
+                                              content: Text(
+                                                'Registro exitóso',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              duration: Duration(seconds: 10),
+                                              action: SnackBarAction(
+                                                label: 'Ok',
+                                                textColor: Colors.white,
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  Navigator.pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              LoginScreen()),
+                                                      (Route<dynamic> route) =>
+                                                          false);
+                                                },
+                                              ),
+                                            ));
                                           },
                                           onFail: (e) {
                                             print('An error occurred: $e');
                                           });
                                     },
                                     child: Text(
-                                      'Register',
-                                      style: TextStyle(color: Colors.white),
+                                      'Registrarse',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
                                     ),
                                   ),
                                 ),
