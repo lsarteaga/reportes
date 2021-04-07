@@ -1,5 +1,5 @@
 class Constant {
-  static const String DOMAIN = 'http://172.25.254.74:3000/api';
+  static const String DOMAIN = 'http://172.25.243.182:3000/api';
   //static const String DOMAIN = 'https://aqueous-stream-00038.herokuapp.com/api';
   static const List<String> FEEDBACK = ['Sugerencia', 'Error'];
   static const List<String> TAGS = ['Comunitario', 'Transito', 'Denuncia'];

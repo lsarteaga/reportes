@@ -38,6 +38,7 @@ dependencies:
   group_button: ^1.2.0
   charts_flutter: ^0.10.0
   geolocator: ^6.1.14
+  firebase_messaging: ^6.0.12
 
 
 dev_dependencies:
