@@ -5,8 +5,19 @@ import 'package:reportes/Pages/Feedback/feedback_page.dart';
 import 'package:reportes/Pages/Login/signin_screen.dart';
 import 'package:reportes/Pages/User/user_settings_page.dart';
 
-class DrawerWidget extends StatelessWidget {
-  UserAuth userAuth = new UserAuth();
+class DrawerWidget extends StatefulWidget {
+  @override
+  _DrawerWidgetState createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
+  UserAuth userAuth;
+  @override
+  void initState() {
+    super.initState();
+    userAuth = new UserAuth();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +46,18 @@ class DrawerWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      userAuth.user.name,
+                      (userAuth.user == null)
+                          ? userAuth.auth.currentUser.uid
+                          : userAuth.user.name,
                       style: TextStyle(
                           fontSize: 15.0,
                           fontWeight: FontWeight.w500,
                           color: Colors.white),
                     ),
                     Text(
-                      userAuth.user.email,
-                      //userAuth.auth.currentUser.email,
+                      (userAuth.user == null)
+                          ? userAuth.auth.currentUser.email
+                          : userAuth.user.email,
                       style: TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w500,

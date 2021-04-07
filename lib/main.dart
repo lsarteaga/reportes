@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:reportes/Pages/Login/signin_screen.dart';
+import 'package:reportes/Pages/home_page.dart';
 import 'package:reportes/Providers/content_provider.dart';
 import 'package:reportes/Common/preferences.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +24,11 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   final prefs = new Preferences();
+
   @override
   Widget build(BuildContext context) {
     final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+    UserAuth userAuth;
 
     return ChangeNotifierProvider<ContentProvider>(
       create: (BuildContext context) => ContentProvider(),
@@ -35,7 +38,6 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Project 3738',
             debugShowCheckedModeBanner: false,
-            //home: HomePage(),
             home: FutureBuilder(
               future: _initialization,
               builder: (context, snapshot) {
@@ -48,8 +50,11 @@ class MyApp extends StatelessWidget {
                   );
                 }
                 if (snapshot.connectionState == ConnectionState.done) {
+                  userAuth = new UserAuth();
                   print('Firebase iniciado correctamente');
-                  return LoginScreen();
+                  return (userAuth.auth.currentUser == null)
+                      ? LoginScreen()
+                      : HomePage();
                 }
                 return Container(
                     child: Center(child: CircularProgressIndicator()));
