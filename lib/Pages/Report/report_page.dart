@@ -25,11 +25,6 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
   // para obtener el id del usuario actual
   UserAuth userAuth = UserAuth();
 
-  /* // notificaciones de firebase
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  String title = 'title';
-  String helper = 'helper'; */
-
   @override
   void initState() {
     //_fetchData();
@@ -84,19 +79,6 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
         onPressed: () => goToNewItemView(),
       ),
       body: renderBody(),
-      /* body: Center(
-        child: Container(
-          child: Column(
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 25),
-              ),
-              Text(helper),
-            ],
-          ),
-        ),
-      ), */
     );
   }
 
@@ -322,10 +304,14 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
         report.title = value[0];
         report.description = value[1];
         report.address = value[2];
-        report.coverImage = value[3];
+        report.tag = value[3];
+        report.location = value[4];
+        report.coverImage = value[5];
+        report.slug = value[6];
+        report.idUser = value[7];
         print('nuevos valores: ');
         print(value);
-        editItem(report, value[4], context);
+        editItem(report, value[6], context);
       }
     });
   }
@@ -347,79 +333,4 @@ class _StateReportPage extends State<ReportPage> with TickerProviderStateMixin {
       ));
     }
   }
-
-  /*  _configFCM() {
-    _firebaseMessaging.configure(
-      onMessage: (Map<dynamic, dynamic> message) async {
-        _goNotification(message);
-      },
-      onResume: (Map<dynamic, dynamic> message) async {
-        _goNotification(message);
-      },
-      onLaunch: (Map<dynamic, dynamic> message) async {
-        _goNotification(message);
-      },
-    );
-  }
-
-  // metodos de FCM
-
-  _getContent(Map<dynamic, dynamic> message) {
-    FCMNotification content = new FCMNotification();
-
-    Map<dynamic, dynamic> notification = message['notification'];
-    Map<dynamic, dynamic> data = message['data'];
-    content.title = notification['title'];
-    content.body = notification['body'];
-    content.url = data['url'];
-
-    return content;
-  }
-
-  _goNotification(Map<dynamic, dynamic> message) {
-    FCMNotification content = _getContent(message);
-    if (content != null) {
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-                title: Container(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-                    child: Text(content.title)),
-                content: Container(
-                  margin: EdgeInsets.all(7.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Container(
-                          margin: EdgeInsets.all(10.0),
-                          child: Text(content.body)),
-                      content.url == null
-                          ? Container()
-                          : Image.network(content.url)
-                    ],
-                  ),
-                ),
-                actions: [
-                  FlatButton(
-                    padding: EdgeInsets.zero,
-                    child: Text('Cerrar'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  )
-                ]);
-          });
-    }
-  } */
 }
-
-/* class FCMNotification {
-  String title;
-  String body;
-  String url;
-
-  FCMNotification({this.title, this.body, this.url});
-} */
